@@ -1,0 +1,14 @@
+﻿@model Clinic.Models.Message
+
+@{
+    ViewData["Title"] = @Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Header</h1>
+
+@Model.Content
+
+<p>
+    <a asp-controller="Home" asp-action="Index" methods="get">Back to Main page</a>
+</p>

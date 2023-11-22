@@ -1,0 +1,79 @@
+@model IEnumerable<Clinic.Models.Visit>
+
+@{
+    ViewData["Title"] = "Visits";
+}
+
+<h1>Visits</h1>
+
+@if (!User.IsInRole("Doctor"))
+{
+    <form asp-controller="Visits" asp-action="Index">
+        <div class="row">
+            <label class="control-label">Speciality</label>
+        </div>
+        <div class="d-flex w-25">
+            <select name="speciality" class="form-control">
+                <option value=""></option>
+                @foreach (var item in ViewBag.Specialities)
+                {
+                    <option value="@item.Text">@item.Text</option>
+                }
+            </select>
+            <input type="submit" value="Submit" class="btn btn-primary ml-3" />
+        </div>
+    </form>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.doctor.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.doctor.Speciality)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isReserved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.doctor.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.doctor.Speciality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isReserved)
+                </td>
+                @{
+                    if (User.IsInRole("User"))
+                    {
+                        <td>
+                            <a asp-controller="Users" asp-action="NotImplementedYet" asp-route-id="@item.Id">Apply</a>
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

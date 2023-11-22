@@ -1,0 +1,51 @@
+﻿@model Clinic.Models.AppUser
+
+@{
+    ViewData["Title"] = "MyAccount";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-controller="Users" asp-action="LogOut" methods="get">Log out</a>
+</p>
+
+<div>
+    @{
+        if (User.IsInRole("Admin"))
+        { 
+		    <h4>Admin</h4>
+        }
+        else
+        { 
+	    <h4>User</h4>
+		}
+    }
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+    </dl>
+</div>
+
+@{
+    if (User.IsInRole("User"))
+    {
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id})
+    }
+}

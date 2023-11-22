@@ -1,0 +1,50 @@
+@model Clinic.Models.ScheduleDay
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ScheduleDay</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="doctorId" class="control-label">Doctor</label>
+                <select asp-for="doctorId" asp-items="@(new SelectList(ViewBag.Doctors, "Value", "Text"))" class="form-control"></select>
+                <span asp-validation-for="doctorId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="day" class="control-label">Day</label>
+                <input asp-for="day" class="form-control" id="datepicker" />
+                <span asp-validation-for="day" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="startHour" class="control-label">Starting hour</label>
+                <input asp-for="startHour" class="form-control" />
+                <span asp-validation-for="startHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="endHour" class="control-label">Ending hour</label>
+                <input asp-for="endHour" class="form-control" />
+                <span asp-validation-for="endHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
