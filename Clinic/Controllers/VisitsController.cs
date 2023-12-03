@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Clinic.Data;
 using Clinic.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Clinic.Controllers
 {
@@ -49,11 +50,12 @@ namespace Clinic.Controllers
                 visits = await _context.Visit
                     .Include(v => v.doctor)
                     .Where(v => v.doctor.Speciality == filterSpeciality)
+                    .Where(v => v.isReserved == 0)
                     .ToListAsync();
             }
             else
             {
-                visits = await _context.Visit.Include(v => v.doctor).OrderBy(v => v.dateTime).ToListAsync();
+                visits = await _context.Visit.Include(v => v.doctor).Where(v => v.isReserved == 0).OrderBy(v => v.dateTime).ToListAsync();
             }
 
             return View(visits);
@@ -100,6 +102,7 @@ namespace Clinic.Controllers
         }
 
         // GET: Visits/Edit/5
+        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Visit == null)
@@ -120,6 +123,7 @@ namespace Clinic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,dateTime,description,isReserved")] Visit visit)
         {
             if (id != visit.Id)
@@ -145,7 +149,7 @@ namespace Clinic.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MyVisits));
             }
             return View(visit);
         }
@@ -190,6 +194,56 @@ namespace Clinic.Controllers
         private bool VisitExists(int id)
         {
             return (_context.Visit?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Apply(int Id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            Guid patientId = Guid.Parse(userIdClaim.Value);
+
+            if (!VisitExists(Id))
+            {
+                return NotFound();
+            }
+
+            var visit = await _context.Visit.FindAsync(Id);
+
+            var patient = await _context.User.FindAsync(patientId);
+
+            visit.user = patient;
+            visit.isReserved = 1;
+            _context.Update(visit);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "User, Doctor")]
+        public async Task<IActionResult> MyVisits()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            Guid userId = Guid.Parse(userIdClaim.Value);
+
+            if (User.IsInRole("User"))
+            {
+                // For users
+                return View(await _context.Visit
+                    .Include(v => v.doctor)
+                    .Where(v => v.user.Id == userId)
+                    .ToListAsync());
+            }
+            else if (User.IsInRole("Doctor"))
+            {
+                // For doctors
+                return View(await _context.Visit
+                    .Include(v => v.user)
+                    .Where(v => v.isReserved == 1)
+                    .Where(v => v.doctor.Id == userId)
+                    .ToListAsync());
+            }
+
+            return View();
         }
     }
 }

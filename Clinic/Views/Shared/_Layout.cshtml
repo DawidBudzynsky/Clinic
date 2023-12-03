@@ -49,6 +49,12 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Visits" asp-action="Index">Visits</a>
                                     </li>
                                 }
+                                if (User.IsInRole("User") || User.IsInRole("Doctor"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Visits" asp-action="MyVisits">My Visits</a>
+                                    </li>
+                                }
                             }
                         }
                     </ul>

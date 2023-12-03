@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Clinic.Models.Visit>
+
+@{
+    ViewData["Title"] = "My Visits";
+}
+
+<h1>My Visits</h1>
+
+<table class="table">
+    @if (User.IsInRole("User"))
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.dateTime)
+                </th>
+                <th>
+                    Doctor
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.doctor.Speciality)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dateTime)
+                    </td>
+                    <td>
+                        @if (item.doctor != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.doctor.Username)
+                        }
+                    </td>
+                    <td>
+                        @if (item.doctor != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.doctor.Speciality)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+    @if (User.IsInRole("Doctor"))
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.dateTime)
+                </th>
+                <th>
+                    Patient
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.dateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.user.FirstName)
+                        @Html.DisplayFor(modelItem => item.user.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Add description</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
