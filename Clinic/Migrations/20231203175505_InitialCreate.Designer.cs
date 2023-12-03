@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic.Migrations
 {
     [DbContext(typeof(ClinicContext))]
-    [Migration("20231120191412_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20231203175505_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,33 +120,43 @@ namespace Clinic.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("dateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("DoctorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("doctorId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("isReserved")
                         .HasColumnType("decimal(1,0)");
 
+                    b.Property<Guid?>("userId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("doctorId");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("Visit");
                 });
 
             modelBuilder.Entity("Clinic.Models.Visit", b =>
                 {
-                    b.HasOne("Clinic.Models.Doctor", null)
+                    b.HasOne("Clinic.Models.Doctor", "doctor")
                         .WithMany("Visits")
-                        .HasForeignKey("DoctorId");
+                        .HasForeignKey("doctorId");
+
+                    b.HasOne("Clinic.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+
+                    b.Navigation("doctor");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Clinic.Models.Doctor", b =>

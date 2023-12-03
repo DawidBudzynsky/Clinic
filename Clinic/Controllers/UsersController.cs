@@ -309,5 +309,50 @@ namespace Clinic.Controllers
                 "This action is not yet implemented");
             return View("Message", info);
         }
+
+        // GET: UserController/GenerateReport
+        [Authorize(Roles = "Admin")]
+        public IActionResult GenerateReport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GenerateReport(DateTime t1, DateTime t2)
+        {
+            var visits = _context.Visit.Include(v => v.doctor)
+            .Where(v => v.dateTime >= t1 && v.dateTime <= t2)
+            .Where(v => v.isReserved == 1)
+            .ToList();
+
+            var schedules = _context.ScheduleDay
+                .Where(s => s.day.Date >= t1 && s.day.Date <= t2)
+                .ToList();
+
+            var groupedVisits = visits.GroupBy(v => v.doctor.Id);
+
+            var reportData = new List<DoctorReportViewModel>();
+
+            foreach (var group in groupedVisits)
+            {
+                var doctorId = group.Key;
+
+                var doctorUsername = group.First().doctor.Username;
+
+                var doctorSchedule = schedules.FirstOrDefault(s => s.doctorId == doctorId);
+
+                var scheduledTime = (doctorSchedule?.endHour - doctorSchedule?.startHour) ?? TimeSpan.Zero;
+
+                reportData.Add(new DoctorReportViewModel
+                {
+                    doctorId = doctorId,
+                    doctorUsername = doctorUsername,
+                    scheduledTime = scheduledTime,
+                    visitCount = group.Count()
+                });
+            }
+            return View("ReportResult", reportData);
+        }
     }
 }

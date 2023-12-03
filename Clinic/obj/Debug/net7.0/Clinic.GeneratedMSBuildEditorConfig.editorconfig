@@ -92,6 +92,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Views/Users/GenerateReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvR2VuZXJhdGVSZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Views/Users/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -102,6 +106,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Views/Users/MyAccount.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvTXlBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Views/Users/ReportResult.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlcnMvUmVwb3J0UmVzdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Views/Visits/Create.cshtml]
