@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NK4OluoEtu1LjIqlyIwbOttUVrJn4cXI7WJRs/Tu/NDkqOKJg+fp+qmiyzFHq2uqBeOUOgbod3MD3xO5//k3bA==",
+  "dgSpecHash": "XW011ue4W8xyba4Rb7uoOjJG3A4ysKd4I/8x44/3tyGpqUcmr2woCM88JcbNvLdpBmogY3dM29SpQSZ5xedglg==",
   "success": true,
-  "projectFilePath": "/Users/dawidbudzynski/Projects/Clinic/Clinic/Clinic.csproj",
+  "projectFilePath": "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Clinic.csproj",
   "expectedPackageFiles": [
     "/Users/dawidbudzynski/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/dawidbudzynski/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",

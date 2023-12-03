@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dawidbudzynski/Projects/Clinic/Clinic/Clinic.csproj": {}
+    "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Clinic.csproj": {}
   },
   "projects": {
-    "/Users/dawidbudzynski/Projects/Clinic/Clinic/Clinic.csproj": {
+    "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Clinic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dawidbudzynski/Projects/Clinic/Clinic/Clinic.csproj",
+        "projectUniqueName": "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Clinic.csproj",
         "projectName": "Clinic",
-        "projectPath": "/Users/dawidbudzynski/Projects/Clinic/Clinic/Clinic.csproj",
+        "projectPath": "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/Clinic.csproj",
         "packagesPath": "/Users/dawidbudzynski/.nuget/packages/",
-        "outputPath": "/Users/dawidbudzynski/Projects/Clinic/Clinic/obj/",
+        "outputPath": "/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/dawidbudzynski/.nuget/NuGet/NuGet.Config"
