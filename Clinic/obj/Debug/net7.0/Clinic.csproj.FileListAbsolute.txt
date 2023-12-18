@@ -560,3 +560,5 @@
 /Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/obj/Debug/net7.0/Clinic.pdb
 /Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/obj/Debug/net7.0/Clinic.genruntimeconfig.cache
 /Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/obj/Debug/net7.0/ref/Clinic.dll
+/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/bin/Debug/net7.0/MySqlConnector.dll
+/Users/dawidbudzynski/studia/SEM5/NTR/23Z-NTR-Budzynski-Dawid/Clinic/bin/Debug/net7.0/Pomelo.EntityFrameworkCore.MySql.dll

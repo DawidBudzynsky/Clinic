@@ -51,7 +51,15 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input id="delete" type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="MyAccount">My account</a>
     </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>$(document).ready(function () {
+        $('#delete').on('click', function () {
+            if (!confirm('Are you sure you want to delete the user?')) { return false; }
+        });
+    });</script>

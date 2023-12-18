@@ -50,11 +50,20 @@
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a id="resign" asp-action="Resign" asp-route-id="@item.Id">Resign</a>
                     </td>
                 </tr>
             }
         </tbody>
     }
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>$(document).ready(function () {
+            $('#resign').on('click', function () {
+                if (!confirm('Are you sure you want to resign the visit?')) { return false; }
+            });
+        });</script>
     @if (User.IsInRole("Doctor"))
     {
         <thead>

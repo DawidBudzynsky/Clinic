@@ -12,13 +12,13 @@
 <div>
     @{
         if (User.IsInRole("Admin"))
-        { 
-		    <h4>Admin</h4>
+        {
+            <h4>Admin</h4>
         }
         else
-        { 
-	    <h4>User</h4>
-		}
+        {
+            <h4>User</h4>
+        }
     }
     <hr />
     <dl class="row">
@@ -42,10 +42,7 @@
         </dd>
     </dl>
 </div>
-
-@{
-    if (User.IsInRole("User"))
-    {
-        @Html.ActionLink("Delete", "Delete", new { id = Model.Id})
-    }
-}
+<p>
+    <a asp-controller="Users" asp-action="Delete" asp-route-id="@Model.Id" methods="get">Delete account</a> |
+    <a asp-controller="Users" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+</p>

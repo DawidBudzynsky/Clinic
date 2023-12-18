@@ -22,4 +22,7 @@ public class AppUser
     [StringLength(20, MinimumLength = 8)]
     [Required]
     public string Password { get; set; }
+
+    [Timestamp]
+    public byte[]? RowVersion { get; set; }
 }

@@ -102,7 +102,7 @@ namespace Clinic.Controllers
         }
 
         // GET: Visits/Edit/5
-        [Authorize(Roles = "Doctor")]
+        [Authorize(Roles = "Doctor, User")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Visit == null)
@@ -123,35 +123,51 @@ namespace Clinic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Doctor")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,dateTime,description,isReserved")] Visit visit)
+        [Authorize(Roles = "Doctor, User")]
+        public async Task<IActionResult> Edit(int? id, byte[] RowVersion)
         {
-            if (id != visit.Id)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var existingVisit = await _context.Visit.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (existingVisit == null)
+            {
+                Visit deletedVisit = new Visit();
+                await TryUpdateModelAsync(deletedVisit);
+                ModelState.AddModelError(string.Empty,
+                    "Nie można zapisać, wizyta została już usunięta");
+                return View(deletedVisit);
+            }
+
+            _context.Entry(existingVisit).Property("RowVersion").OriginalValue = RowVersion;
+
+            if (await TryUpdateModelAsync<Visit>(
+             existingVisit,
+             "",
+             s => s.description))
             {
                 try
                 {
-                    _context.Update(visit);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(MyVisits));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VisitExists(visit.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError(string.Empty, "Plik, który próbowałeś edytować, "
+                    + "został zmodyfikowany przez innego użytkownika po uzyskaniu przez ciebie oryginalnej wartości. "
+                    + "Operacja edycji została anulowana, a obecne wartości w bazie danych "
+                    + "zostały wyświetlone. Jeśli nadal chcesz edytować ten rekord, kliknij "
+                    + "ponownie przycisk Save. W przeciwnym razie kliknij hiperłącze back to list.");
+                    existingVisit.RowVersion = (byte[])existingVisit.RowVersion;
+                    ModelState.Remove("RowVersion");
+
+                    //return RedirectToAction("ConcurencyError");
                 }
-                return RedirectToAction(nameof(MyVisits));
             }
-            return View(visit);
+            return View(existingVisit);
         }
 
         // GET: Visits/Delete/5
@@ -188,7 +204,7 @@ namespace Clinic.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(MyVisits));
         }
 
         private bool VisitExists(int id)
@@ -217,6 +233,23 @@ namespace Clinic.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Resign(int id)
+        {
+            if (!VisitExists(id))
+            {
+                return NotFound();
+            }
+
+            var existingVisit = await _context.Visit.Include(v => v.user).FirstOrDefaultAsync(m => m.Id == id);
+
+            existingVisit.user = null;
+            existingVisit.isReserved = 0;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyVisits));
         }
 
         [Authorize(Roles = "User, Doctor")]

@@ -21,10 +21,10 @@ namespace Clinic.Controllers
         }
 
         // GET: ScheduleDays
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(Guid? doctorId)
         {
-            var doctors = from d in _context.Doctor select d;
+            var doctors = await _context.Doctor.ToListAsync();
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "", Value = "" });
 
@@ -33,17 +33,17 @@ namespace Clinic.Controllers
                 items.Add(new SelectListItem { Text = doctor.Username, Value = doctor.Id.ToString() });
             }
 
-            var schedules = from s in _context.ScheduleDay select s;
+            var schedules = await _context.ScheduleDay.ToListAsync();
             if (doctorId.HasValue)
             {
-                schedules = schedules.Where(s => s.doctorId == doctorId);
+                schedules = schedules.FindAll(s => s.doctorId == doctorId);
             }
 
             var scheduleViewModels = new List<ScheduleViewModel>();
 
             foreach (var s in schedules)
             {
-                var doctor = _context.Doctor.FirstOrDefault(d => d.Id == s.doctorId);
+                var doctor = await _context.Doctor.FirstOrDefaultAsync(d => d.Id == s.doctorId);
                 var svm = new ScheduleViewModel { DoctorUsername = doctor.Username, schedule = s };
                 scheduleViewModels.Add(svm);
             }

@@ -90,36 +90,54 @@ namespace Clinic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Speciality,Id,Username,FirstName,LastName,Password")] Doctor doctor)
+        public async Task<IActionResult> Edit(Guid? id, byte[] RowVersion)
         {
-            if (id != doctor.Id)
+
+            //var doctorRoleClaim = User.FindFirst(ClaimTypes.Role).ToString();
+
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var existingDoctor = await _context.Doctor.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (existingDoctor == null)
+            {
+                Doctor deletedDoctor = new Doctor();
+                await TryUpdateModelAsync(deletedDoctor);
+                ModelState.AddModelError(string.Empty,
+                    "Unable to save changes. The department was deleted by another user.");
+                return View(deletedDoctor);
+            }
+
+            _context.Entry(existingDoctor).Property("RowVersion").OriginalValue = RowVersion;
+
+            if (await TryUpdateModelAsync<Doctor>(
+             existingDoctor,
+             "",
+             s => s.Speciality, s => s.Username, s => s.FirstName, s => s.LastName, s => s.Password))
             {
                 try
                 {
-                    _context.Update(doctor);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorExists(doctor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(doctor);
-        }
+                    ModelState.AddModelError(string.Empty, "Plik, który próbowałeś edytować, "
+                    + "został zmodyfikowany przez innego użytkownika po uzyskaniu przez ciebie oryginalnej wartości. "
+                    + "Operacja edycji została anulowana, a obecne wartości w bazie danych "
+                    + "zostały wyświetlone. Jeśli nadal chcesz edytować ten rekord, kliknij "
+                    + "ponownie przycisk Zapisz. W przeciwnym razie kliknij hiperłącze Powrót do listy.");
+                    existingDoctor.RowVersion = (byte[])existingDoctor.RowVersion;
+                    ModelState.Remove("RowVersion");
 
+                    //return RedirectToAction("ConcurencyError");
+                }
+            }
+            return View(existingDoctor);
+        }
         // GET: Doctors/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -159,7 +177,16 @@ namespace Clinic.Controllers
 
             if (hasSchedules)
             {
-                return RedirectToAction("CannotDeleteDoctorWithSchedules", "Users");
+                var allDoctorsSchedules = await _context.ScheduleDay.Where(m => m.doctorId == id).ToListAsync();
+                foreach (var schedule in allDoctorsSchedules)
+                {
+                    _context.ScheduleDay.Remove(schedule);
+                }
+                var allDoctorsVisits = await _context.Visit.Include(m => m.doctor).Where(m => m.doctor.Id == id).ToListAsync();
+                foreach (var visit in allDoctorsVisits)
+                {
+                    _context.Visit.Remove(visit);
+                }
             }
 
             _context.Doctor.Remove(doctor);

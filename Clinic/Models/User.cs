@@ -12,5 +12,4 @@ public class User : AppUser
     public int IsAdmin { get; set; } = 0;
 
     public bool isActive { get; set; } = false;
-
 }

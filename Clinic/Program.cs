@@ -5,8 +5,20 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Clinic.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/*
 builder.Services.AddDbContext<ClinicContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ClinicContext") ?? throw new InvalidOperationException("Connection string 'ClinicContext' not found.")));
+*/
+
+var connectionString = builder.Configuration.GetConnectionString("ClinicContext");
+
+builder.Services.AddDbContext<ClinicContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.EnableSensitiveDataLogging();
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

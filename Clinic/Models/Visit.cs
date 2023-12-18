@@ -21,4 +21,7 @@ public class Visit
     [Range(0, 1)]
     [Required]
     public int isReserved { get; set; } = 0;
+
+    [Timestamp]
+    public byte[]? RowVersion { get; set; }
 }

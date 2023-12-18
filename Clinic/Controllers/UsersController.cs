@@ -100,35 +100,60 @@ namespace Clinic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("IsAdmin,isActive,Id,Username,FirstName,LastName,Password")] User user)
+        [Authorize(Roles = "User, Admin")]
+        public async Task<IActionResult> Edit(Guid? id, byte[] RowVersion)
         {
-            if (id != user.Id)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var existingUser = await _context.User.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (existingUser == null)
+            {
+                User deletedUser = new User();
+                await TryUpdateModelAsync(deletedUser);
+                ModelState.AddModelError(string.Empty,
+                    "Unable to save changes. The department was deleted by another user.");
+                return View(deletedUser);
+            }
+
+            _context.Entry(existingUser).Property("RowVersion").OriginalValue = RowVersion;
+
+            if (await TryUpdateModelAsync<User>(
+             existingUser,
+             "",
+             s => s.Username, s => s.FirstName, s => s.LastName, s => s.Password, s => s.isActive))
             {
                 try
                 {
-                    _context.Update(user);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.Id))
+                    if (User.IsInRole("User"))
                     {
-                        return NotFound();
+                        return RedirectToAction("MyAccount");
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(Index));
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateConcurrencyException)
+                {
+                    ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+                    + "was modified by another user after you got the original value. The "
+                    + "edit operation was canceled and the current values in the database "
+                    + "have been displayed. If you still want to edit this record, click "
+                    + "the Save button again. Otherwise click the Back to List hyperlink.");
+                    existingUser.RowVersion = (byte[])existingUser.RowVersion;
+                    ModelState.Remove("RowVersion");
+
+                    //return RedirectToAction("ConcurencyError");
+                }
             }
-            return View(user);
+            return View(existingUser);
         }
+
 
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -164,7 +189,7 @@ namespace Clinic.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(LogOut));
+            return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(Guid id)
