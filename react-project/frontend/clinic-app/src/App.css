@@ -37,17 +37,3 @@
     transform: rotate(360deg);
   }
 }
-
-.registerButton {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: white;
-  color: black;
-  border: none;
-  border-radius: 20px;
-  /* Adjust the border-radius as needed for the desired roundness */
-  text-decoration: none;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-}

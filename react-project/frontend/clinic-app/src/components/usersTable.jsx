@@ -14,28 +14,30 @@ export default function UsersTable({ users }) {
   return (
     <>
       <UserInfoModal show={show} handleClose={handleClose} userInfo={userToShow} />
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Username</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id} onClick={() => handleShowUser(user)}>
-              <th scope="row">{index + 1}</th>
-              <td>{user.username}</td>
-              <td>{user.first_name}</td>
-              <td>{user.last_name}</td>
-              <td></td>
+      <div className="px-3 py-3 shadow rounded-3 mb-5">
+        <table className="table table-striped" >
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Username</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={user.id} onClick={() => handleShowUser(user)}>
+                <th scope="row">{index + 1}</th>
+                <td>{user.username}</td>
+                <td>{user.first_name}</td>
+                <td>{user.last_name}</td>
+                <td></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
