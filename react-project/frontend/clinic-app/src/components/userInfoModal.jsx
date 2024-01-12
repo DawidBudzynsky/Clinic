@@ -13,12 +13,20 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicUsername">
 
-            <Form.Label>First</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
               disabled
               readOnly
               value={userInfo.username}
+            />
+
+            <Form.Label>First</Form.Label>
+            <Form.Control
+              type="text"
+              disabled
+              readOnly
+              value={userInfo.first_name}
             />
 
             <Form.Label>Last</Form.Label>
@@ -26,19 +34,28 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
               type="text"
               disabled
               readOnly
-              value={userInfo.username}
+              value={userInfo.last_name}
+            />
+
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="text"
+              disabled
+              readOnly
+              value={userInfo.email}
             />
 
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
+        {/* NOTE: Not implemented yet */}
+        <Button variant="secondary" >
+          Edit
+        </Button>
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        {/* <Button variant="primary" onClick={handleSubmit}> */}
-        {/*   Submit */}
-        {/* </Button> */}
       </Modal.Footer>
     </Modal>
   );
