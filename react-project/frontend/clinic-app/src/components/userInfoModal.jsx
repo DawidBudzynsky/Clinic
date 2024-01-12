@@ -12,7 +12,6 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicUsername">
-
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
@@ -20,7 +19,9 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
               readOnly
               value={userInfo.username}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicFirstName">
             <Form.Label>First</Form.Label>
             <Form.Control
               type="text"
@@ -28,7 +29,9 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
               readOnly
               value={userInfo.first_name}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicLastName">
             <Form.Label>Last</Form.Label>
             <Form.Control
               type="text"
@@ -36,7 +39,9 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
               readOnly
               value={userInfo.last_name}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="text"
@@ -44,8 +49,8 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
               readOnly
               value={userInfo.email}
             />
-
           </Form.Group>
+
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -57,6 +62,6 @@ export default function UserInfoModal({ show, handleClose, userInfo }) {
           Close
         </Button>
       </Modal.Footer>
-    </Modal>
+    </Modal >
   );
 }

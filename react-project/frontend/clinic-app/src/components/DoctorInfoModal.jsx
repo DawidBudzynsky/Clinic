@@ -12,8 +12,8 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo }) {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="formBasicUsername">
 
+          <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
@@ -21,7 +21,9 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo }) {
               readOnly
               value={doctorInfo.username}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicFirstName">
             <Form.Label>First</Form.Label>
             <Form.Control
               type="text"
@@ -29,7 +31,9 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo }) {
               readOnly
               value={doctorInfo.first_name}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicLastName">
             <Form.Label>Last</Form.Label>
             <Form.Control
               type="text"
@@ -37,7 +41,9 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo }) {
               readOnly
               value={doctorInfo.last_name}
             />
+          </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Speciality</Form.Label>
             <Form.Control
               type="text"
@@ -45,7 +51,6 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo }) {
               readOnly
               value={doctorInfo.speciality}
             />
-
           </Form.Group>
         </Form>
       </Modal.Body>

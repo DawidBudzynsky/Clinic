@@ -9,12 +9,12 @@ import DoctorInfoModal from "../components/DoctorInfoModal";
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  // NOTE: not needed now, dont have add modal
+  // const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const fetchDoctors = async () => {
     const response = await api.get(DOCTORS_URL);
-    console.log(response.data)
     setDoctors(response.data);
   };
 
