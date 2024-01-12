@@ -18,6 +18,7 @@ export default function UsersTable({ users }) {
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Username</th>
             <th scope="col">First</th>
             <th scope="col">Last</th>
             <th scope="col">Handle</th>
@@ -27,6 +28,7 @@ export default function UsersTable({ users }) {
           {users.map((user, index) => (
             <tr key={user.id} onClick={() => handleShowUser(user)}>
               <th scope="row">{index + 1}</th>
+              <td>{user.username}</td>
               <td>{user.first_name}</td>
               <td>{user.last_name}</td>
               <td></td>
