@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import Navbar from "../components/navbar";
-import UsersTable from "../components/usersTable";
-import AddUserModal from "../components/userFormModal";
 import Button from "react-bootstrap/Button";
-import { USERS_URL } from "../apiurls";
+import { DOCTORS_URL } from "../apiurls";
+import DoctorsTable from "../components/DoctorsTable";
+import DoctorInfoModal from "../components/DoctorInfoModal";
 
-const Users = () => {
-  const [users, setUsers] = useState([]);
+const Doctors = () => {
+  const [doctors, setDoctors] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const fetchUsers = async () => {
-    const response = await api.get(USERS_URL);
-    setUsers(response.data);
+  const fetchDoctors = async () => {
+    const response = await api.get(DOCTORS_URL);
+    console.log(response.data)
+    setDoctors(response.data);
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchDoctors();
   }, [show]);
 
   return (
     <div>
       <Navbar />
       <div className="container my-4">
-        <h1>Users</h1>
-        <UsersTable users={users} />
+        <h1>Doctors</h1>
+        <DoctorsTable doctors={doctors} />
         <Button variant="primary" onClick={handleShow}>
-          Add User
+          Add Doctor
         </Button>
-        <AddUserModal show={show} handleClose={handleClose} />
       </div>
     </div>
   );
 };
-export default Users;
+export default Doctors;

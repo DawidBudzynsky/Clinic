@@ -1,2 +1,3 @@
 const USERS_URL = "/users";
-export { USERS_URL }
+const DOCTORS_URL = "/doctors";
+export { USERS_URL, DOCTORS_URL }

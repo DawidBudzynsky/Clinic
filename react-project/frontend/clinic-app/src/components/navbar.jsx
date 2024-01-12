@@ -50,8 +50,8 @@ export default function Navbar() {
               className="dropdown-menu"
               aria-labelledby="navbarDropdownMenuLink"
             >
-              <a className="dropdown-item" href="#">
-                Action
+              <a className="dropdown-item" href="/doctors">
+                Doctors
               </a>
               <a className="dropdown-item" href="#">
                 Another action

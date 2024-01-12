@@ -53,3 +53,27 @@ async def read_user(user_id: int, db: db_dependency):
 async def read_all_users(db: db_dependency, skip: int = 0, limit: int = 100):
     users = db.query(models.User).offset(skip).limit(limit).all()
     return users
+
+
+@app.post(
+    "/doctors", status_code=status.HTTP_201_CREATED, response_model=schemas.Doctor
+)
+async def create_doctor(doctor: schemas.DoctorCreate, db: db_dependency):
+    db_doctor = models.Doctor(**doctor.model_dump())
+    db.add(db_doctor)
+    db.commit()
+    return db_doctor
+
+
+@app.get("/doctors/{doctor_id}", status_code=status.HTTP_200_OK)
+async def read_doctor(doctor_id: int, db: db_dependency):
+    doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
+    if doctor is None:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+    return doctor
+
+
+@app.get("/doctors", status_code=status.HTTP_200_OK)
+async def read_all_doctors(db: db_dependency, skip: int = 0, limit: int = 100):
+    doctors = db.query(models.Doctor).offset(skip).limit(limit).all()
+    return doctors

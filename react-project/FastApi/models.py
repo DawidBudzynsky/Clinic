@@ -47,6 +47,9 @@ class Doctor(Base):
     last_name = Column(String(50), nullable=True)
     visits = relationship("Visit", back_populates="doctor")
     schedules = relationship("Schedule", back_populates="doctor")
+    password = Column(String(50), nullable=False)
+    is_admin = Column(Boolean, nullable=True)
+    is_active = Column(Boolean, nullable=True)
     speciality = Column(Enum(Speciality))
 
 
