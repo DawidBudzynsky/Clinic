@@ -77,3 +77,9 @@ async def read_doctor(doctor_id: int, db: db_dependency):
 async def read_all_doctors(db: db_dependency, skip: int = 0, limit: int = 100):
     doctors = db.query(models.Doctor).offset(skip).limit(limit).all()
     return doctors
+
+
+@app.get("/specialities", status_code=status.HTTP_200_OK)
+async def get_specialitis():
+    specialties = [specialty for specialty in models.Speciality]
+    return specialties

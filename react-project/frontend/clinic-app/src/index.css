@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loginButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3ded97;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  /* Adjust the border-radius as needed for the desired roundness */
+  text-decoration: none;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 175px;
+}
+
+.registerButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  /* Adjust the border-radius as needed for the desired roundness */
+  text-decoration: none;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 175px;
+}
