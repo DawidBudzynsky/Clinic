@@ -27,9 +27,9 @@ const Users = () => {
       <div className="container my-4">
         <h1>Users</h1>
         <UsersTable users={users} />
-        <Button variant="primary" onClick={handleShow}>
+        <button className="whiteButton" variant="primary" onClick={handleShow}>
           Add User
-        </Button>
+        </button>
         <AddUserModal show={show} handleClose={handleClose} />
       </div>
 

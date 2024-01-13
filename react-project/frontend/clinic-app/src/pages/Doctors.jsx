@@ -31,9 +31,9 @@ const Doctors = () => {
       <div className="container my-4 ">
         <h1>Doctors</h1>
         <DoctorsTable doctors={doctors} />
-        <Button variant="primary" onClick={handleShow}>
+        <button className="whiteButton" variant="primary" onClick={handleShow}>
           Add Doctor
-        </Button>
+        </button>
       </div>
 
       <div className="greenBackground"></div>

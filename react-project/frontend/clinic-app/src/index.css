@@ -45,3 +45,8 @@ code {
 .table-striped tbody tr:hover {
   cursor: pointer;
 }
+.addScheduleModal {
+  width: 90vw;
+  max-width: 90vw;
+  height: 70%;
+}

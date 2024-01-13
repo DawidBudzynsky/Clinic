@@ -75,7 +75,7 @@ export const Login = () => {
               <p style={{ color: 'white' }}>Sign up now and elevate your practice by harnessing the power of top-tier software solutions.</p>
               <div className="text-center mb-3">
                 <button
-                  className='registerButton bg-white text-black'
+                  className='whiteButton bg-white text-black'
                   variant="secondary"
                   type="button"
                   onClick={handleOpen}
