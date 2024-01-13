@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import RegisterModal from '../components/RegisterModal';
 import { ToastContainer, toast } from 'react-toastify';
 
-
-function Login() {
+export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -90,6 +89,5 @@ function Login() {
       </Container>
     </>
   );
-}
+};
 
-export default Login;

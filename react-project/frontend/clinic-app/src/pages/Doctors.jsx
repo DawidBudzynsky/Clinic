@@ -4,7 +4,7 @@ import Navbar from "../components/navbar";
 import Button from "react-bootstrap/Button";
 import { DOCTORS_URL } from "../apiurls";
 import DoctorsTable from "../components/DoctorsTable";
-import DoctorInfoModal from "../components/DoctorInfoModal";
+import AddDoctorModal from "../components/DoctorAddModal";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -12,6 +12,8 @@ const Doctors = () => {
   // NOTE: not needed now, dont have add modal
   // const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
 
   const fetchDoctors = async () => {
     const response = await api.get(DOCTORS_URL);
@@ -24,6 +26,7 @@ const Doctors = () => {
 
   return (
     <div>
+      <AddDoctorModal show={show} handleClose={handleClose} />
       <Navbar />
       <div className="container my-4">
         <h1>Doctors</h1>
