@@ -28,6 +28,12 @@ export default function Navbar() {
             <a className="nav-link" href="/doctors">
               Doctors
             </a>
+
+          </li>
+          <li>
+            <a className="nav-link" href="/schedules">
+              Schedules
+            </a>
           </li>
           {/* <li className="nav-item dropdown"> */}
           {/*   <a */}
