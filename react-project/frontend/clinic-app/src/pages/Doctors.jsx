@@ -28,13 +28,15 @@ const Doctors = () => {
     <div>
       <AddDoctorModal show={show} handleClose={handleClose} />
       <Navbar />
-      <div className="container my-4">
+      <div className="container my-4 ">
         <h1>Doctors</h1>
         <DoctorsTable doctors={doctors} />
         <Button variant="primary" onClick={handleShow}>
           Add Doctor
         </Button>
       </div>
+
+      <div className="greenBackground"></div>
     </div>
   );
 };

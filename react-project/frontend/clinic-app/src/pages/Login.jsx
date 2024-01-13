@@ -21,7 +21,7 @@ export const Login = () => {
   };
 
   const gradientStyle = {
-    background: 'linear-gradient(to bottom right, #3ded97, #028A0F)',
+    background: 'linear-gradient(to bottom right, #3ded97, #00984d)',
     height: '100vh', // Set the height to fill the viewport
   };
 

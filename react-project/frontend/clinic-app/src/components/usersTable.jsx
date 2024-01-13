@@ -14,7 +14,7 @@ export default function UsersTable({ users }) {
   return (
     <>
       <UserInfoModal show={show} handleClose={handleClose} userInfo={userToShow} />
-      <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh' }}>
+      <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
         <table className="table table-striped" >
           <thead>
             <tr>

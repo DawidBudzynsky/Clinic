@@ -32,6 +32,8 @@ const Users = () => {
         </Button>
         <AddUserModal show={show} handleClose={handleClose} />
       </div>
+
+      <div className="greenBackground"></div>
     </div>
   );
 };
