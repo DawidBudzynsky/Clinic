@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import api from "../api";
 import { SPECIALITIES_URL } from "../apiurls";
+import SearchBar from "./SearchBar";
 
 export default function DoctorsTable({ doctors }) {
   const [show, setShow] = useState(false);
@@ -15,6 +16,9 @@ export default function DoctorsTable({ doctors }) {
   const handleShowDoctor = (doctorData) => {
     setDoctorToShow(doctorData);
     setShow(true);
+  };
+  const preventSubmiting = (e) => {
+    e.preventDefault();
   };
 
   const fetchSpecialities = async () => {
@@ -36,17 +40,7 @@ export default function DoctorsTable({ doctors }) {
       <DoctorInfoModal show={show} handleClose={handleClose} doctorInfo={doctorToShow} />
       <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
         <div className="d-flex mb-3 justify-content-between">
-          <Form className="w-50 pe-5">
-            <Form.Select onChange={(e) => setSpecialitySearch(e.target.value)} >
-              <option value="">All</option>
-              {specialities.map((speciality, index) => (
-                <option key={index} value={speciality}>{speciality}</option>
-              ))}
-            </Form.Select>
-          </Form>
-          <Form className="w-100 ps-5">
-            <Form.Control onChange={(e) => setSearch(e.target.value)} />
-          </Form>
+          <SearchBar setSearch={(e) => setSearch(e.target.value)} haveSelect={true} selectValues={specialities} setSelectSearch={(e) => setSpecialitySearch(e.target.value)} />
         </div>
         <table className="table table-striped">
           <thead>
