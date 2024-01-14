@@ -7,12 +7,18 @@ import Schedules from "./pages/Schedules";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Users />} />
-      <Route path="/doctors" element={<Doctors />} />
-      <Route path="/schedules" element={<Schedules />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Users />} />
+        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/schedules" element={<Schedules />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+      <div class="footer">
+        <p>123 Medical Street, Cityville | Phone: (123) 456-7890 | Email: info@clinicmanagement.com</p>
+        <p>&copy; 2024 Clinic Management System | All rights reserved</p>
+      </div>
+    </>
   );
 }
 
