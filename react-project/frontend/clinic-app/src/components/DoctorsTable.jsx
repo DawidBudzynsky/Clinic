@@ -13,12 +13,11 @@ export default function DoctorsTable({ doctors }) {
   const [doctorToShow, setDoctorToShow] = useState({});
   const handleClose = () => setShow(false);
 
+  const fieldsToSearch = ["username", "first_name", "last_name"]
+
   const handleShowDoctor = (doctorData) => {
     setDoctorToShow(doctorData);
     setShow(true);
-  };
-  const preventSubmiting = (e) => {
-    e.preventDefault();
   };
 
   const fetchSpecialities = async () => {
@@ -56,7 +55,7 @@ export default function DoctorsTable({ doctors }) {
             {doctors.filter((item) => {
               const searchTerm = search.toLowerCase();
 
-              return ((searchTerm === '' ? item : item.first_name.toLowerCase().includes(searchTerm) || item.username.toLowerCase().includes(searchTerm)) &&
+              return ((searchTerm === '' ? item : fieldsToSearch.some(field => item[field].toLowerCase().includes(searchTerm))) &&
                 (specialitySearch === '' ? item : item.speciality.includes(specialitySearch)));
             }).map((doctor, index) => (
               <tr key={doctor.id} onClick={() => handleShowDoctor(doctor)}>
