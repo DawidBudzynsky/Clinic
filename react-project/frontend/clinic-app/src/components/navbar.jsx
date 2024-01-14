@@ -35,33 +35,6 @@ export default function Navbar() {
               Schedules
             </a>
           </li>
-          {/* <li className="nav-item dropdown"> */}
-          {/*   <a */}
-          {/*     className="nav-link dropdown-toggle" */}
-          {/*     href="#" */}
-          {/*     id="navbarDropdownMenuLink" */}
-          {/*     role="button" */}
-          {/*     data-bs-toggle="dropdown" */}
-          {/*     aria-haspopup="true" */}
-          {/*     aria-expanded="false" */}
-          {/*   > */}
-          {/*     Dropdown link */}
-          {/*   </a> */}
-          {/*   <div */}
-          {/*     className="dropdown-menu" */}
-          {/*     aria-labelledby="navbarDropdownMenuLink" */}
-          {/*   > */}
-          {/*     <a className="dropdown-item" href="/doctors"> */}
-          {/*       Doctors */}
-          {/*     </a> */}
-          {/*     <a className="dropdown-item" href="#"> */}
-          {/*       Another action */}
-          {/*     </a> */}
-          {/*     <a className="dropdown-item" href="#"> */}
-          {/*       Something else here */}
-          {/*     </a> */}
-          {/*   </div> */}
-          {/* </li> */}
         </ul>
       </div>
     </nav>

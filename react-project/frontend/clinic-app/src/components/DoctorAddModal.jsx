@@ -67,13 +67,13 @@ export default function AddDoctorModal({ show, handleClose }) {
   }, [show]);
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
+    <Modal show={show} onHide={handleClose} >
+      < Modal.Header closeButton >
         <Modal.Title>Add Doctor</Modal.Title>
-      </Modal.Header>
+      </Modal.Header >
       <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicUsername">
+        <Form >
+          <Form.Group className="mb-3 w-200" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
@@ -147,6 +147,7 @@ export default function AddDoctorModal({ show, handleClose }) {
               checked={formData.is_active}
             />
           </Form.Group>
+
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -157,6 +158,6 @@ export default function AddDoctorModal({ show, handleClose }) {
           Submit
         </Button>
       </Modal.Footer>
-    </Modal>
+    </Modal >
   );
 }
