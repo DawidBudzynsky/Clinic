@@ -12,13 +12,19 @@ class Speciality(str, Enum):
     Pediatric = "Pediatric"
 
 
+class Groupe(str, Enum):
+    Admin = "Admin"
+    User = "User"
+    Doctor = "Doctor"
+
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr | None = None
     first_name: str | None = None
     last_name: str | None = None
     password: str
-    is_admin: bool | None = None
+    groupe: Groupe = Groupe.User
     is_active: bool | None = None
 
 
@@ -33,7 +39,13 @@ class User(UserBase):
         from_attributes = True
 
 
-class DoctorBase(UserBase):
+class DoctorBase(BaseModel):
+    username: str
+    email: EmailStr | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    password: str
+    groupe: Groupe = Groupe.Doctor
     speciality: Speciality
 
 

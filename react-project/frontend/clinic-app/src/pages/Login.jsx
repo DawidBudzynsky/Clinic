@@ -32,7 +32,7 @@ function Login() {
   };
 
   const goToHome = () => {
-    window.location.href = HOME;
+    window.location.href = "/user_home";
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,9 +66,7 @@ function Login() {
       })
       .then((response) => {
         setUserData(response.data);
-        sessionStorage.setItem("isAdmin", JSON.stringify(response.data.is_admin));
-        console.log(sessionStorage.getItem("isAdmin"));
-        console.log(response.data);
+        sessionStorage.setItem("userGroup", response.data.groupe);
       })
       .catch((error) => {
         window.location.href = "/login";

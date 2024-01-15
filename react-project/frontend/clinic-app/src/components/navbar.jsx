@@ -2,11 +2,7 @@ import React from "react";
 import { useState } from "react";
 
 export default function Navbar() {
-  const [isAdmin, setIsAdmin] = useState(() => {
-    const isAdminString = sessionStorage.getItem("isAdmin");
-    return isAdminString ? JSON.parse(isAdminString) : false;
-  });
-  console.log(isAdmin)
+  const token = sessionStorage.getItem("accessToken");
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-5">
       <a className="navbar-brand" href="#">
@@ -26,17 +22,10 @@ export default function Navbar() {
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
           <li className="nav-item active">
-            <a className="nav-link" href="/">
+            <a className="nav-link" href="/user_home">
               Home <span className="sr-only"></span>
             </a>
           </li>
-          {isAdmin ? (
-            <li className="nav-item">
-              <a className="nav-link" href="/doctors">
-                Doctors
-              </a>
-            </li>
-          ) : null}
           <li>
             <a className="nav-link" href="/schedules">
               Schedules

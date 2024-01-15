@@ -44,6 +44,7 @@ export default function RegisterModal({ show, handleClose }) {
       ...formData,
       [name]: inputValue,
     });
+    console.log(formData);
   };
 
   return (

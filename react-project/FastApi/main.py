@@ -9,13 +9,14 @@ import schemas
 from fastapi.middleware.cors import CORSMiddleware
 import auth
 from database import get_db
-
+from schemas import Groupe
+from typing import Union
+from sqlalchemy.orm.strategy_options import joinedload
 
 app = FastAPI()
 app.include_router(auth.router)
 
 origins = ["http://localhost:3000"]
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,12 +28,27 @@ app.add_middleware(
 
 models.Base.metadata.create_all(bind=engine)
 
-
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(auth.get_current_user)]
 
 
-@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
+def ensure_user_group(
+    current_user: user_dependency, required_group: Groupe = Groupe.Admin
+):
+    user_group = Groupe(current_user["groupe"])
+    if user_group != required_group.name:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have access to this resource",
+        )
+    return current_user
+
+
+@app.post(
+    "/users",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.User,
+)
 async def create_user(user: schemas.UserBase, db: db_dependency):
     db_user = models.User(**user.model_dump())
     db.add(db_user)
@@ -48,7 +64,11 @@ async def read_user(user_id: int, db: db_dependency):
     return user
 
 
-@app.get("/users", status_code=status.HTTP_200_OK)
+@app.get(
+    "/users",
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(ensure_user_group)],
+)
 async def read_all_users(db: db_dependency, skip: int = 0, limit: int = 100):
     users = db.query(models.User).offset(skip).limit(limit).all()
     return users
@@ -58,7 +78,10 @@ async def read_all_users(db: db_dependency, skip: int = 0, limit: int = 100):
 async def current_user(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401, detail="Authentication Failed")
-    db_user = db.query(models.User).get(user["id"])
+    if user["groupe"] == "Doctor":
+        db_user = db.query(models.Doctor).get(user["id"])
+    else:
+        db_user = db.query(models.User).get(user["id"])
     return db_user
 
 

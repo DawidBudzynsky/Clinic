@@ -10,13 +10,20 @@ from sqlalchemy import (
     ForeignKey,
     Text,
     Boolean,
+    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 from enum import Enum as PyEnum
 
 
-class User(Base):
-    __tablename__ = "users"
+class Groupe(PyEnum):
+    Admin = "Admin"
+    User = "User"
+    Doctor = "Doctor"
+
+
+class UserBase(Base):
+    __abstract__ = True
 
     id = Column(Integer, primary_key=True, index=True, unique=True)
     username = Column(String(50), unique=True, index=True)
@@ -24,7 +31,12 @@ class User(Base):
     first_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=True)
     password = Column(String(50), nullable=False)
-    is_admin = Column(Boolean, nullable=True)
+    groupe = Column(Enum(Groupe))
+
+
+class User(UserBase, Base):
+    __tablename__ = "users"
+
     is_active = Column(Boolean, nullable=True)
     visits = relationship("Visit", back_populates="user")
 
@@ -37,19 +49,11 @@ class Speciality(PyEnum):
     Pediatric = "Pediatric"
 
 
-class Doctor(Base):
+class Doctor(UserBase, Base):
     __tablename__ = "doctors"
 
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(50), unique=True, index=True)
-    email = Column(String(50), nullable=True)
-    first_name = Column(String(50), nullable=True)
-    last_name = Column(String(50), nullable=True)
     visits = relationship("Visit", back_populates="doctor")
     schedules = relationship("Schedule", back_populates="doctor")
-    password = Column(String(50), nullable=False)
-    is_admin = Column(Boolean, nullable=True)
-    is_active = Column(Boolean, nullable=True)
     speciality = Column(Enum(Speciality))
 
 
@@ -69,7 +73,7 @@ class Visit(Base):
 class Schedule(Base):
     __tablename__ = "schedules"
     id = Column(Integer, primary_key=True, index=True)
-    doctor_id = Column(Integer, ForeignKey("doctors.id"))  # ForeignKey constraint added
+    doctor_id = Column(Integer, ForeignKey("doctors.id"))
     doctor = relationship("Doctor", back_populates="schedules")
     day = Column(Date)
     start = Column(Time)
