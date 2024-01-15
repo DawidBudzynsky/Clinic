@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from typing import Annotated
-
+from datetime import datetime, timedelta
 from starlette.status import HTTP_200_OK
 import models
 from database import engine, SessionLocal
@@ -109,6 +109,26 @@ async def read_all_doctors(db: db_dependency, skip: int = 0, limit: int = 100):
     return doctors
 
 
+def create_visits(schedule: schemas.ScheduleCreate):
+    start_datetime = datetime.combine(schedule.day, schedule.start)
+    finish_datetime = datetime.combine(schedule.day, schedule.finish)
+    current_datetime = start_datetime
+
+    visits = []
+    while current_datetime < finish_datetime:
+        visit = schemas.VisitCreate(
+            visit_date=current_datetime,
+            description=None,
+            user_id=None,
+            doctor_id=schedule.doctor_id,
+            is_reserved=False,
+        )
+        visits.append(visit)
+        current_datetime += timedelta(minutes=15)
+
+    return visits
+
+
 @app.post(
     "/schedules",
     status_code=status.HTTP_201_CREATED,
@@ -117,6 +137,10 @@ async def read_all_doctors(db: db_dependency, skip: int = 0, limit: int = 100):
 async def schedule_create(schedule: schemas.ScheduleCreate, db: db_dependency):
     db_schedule = models.Schedule(**schedule.model_dump())
     db.add(db_schedule)
+    new_visits = create_visits(schedule)
+    for visit in new_visits:
+        db_visit = models.Visit(**visit.model_dump())
+        db.add(db_visit)
     db.commit()
     return db_schedule
 
@@ -141,6 +165,45 @@ async def read_all_schedules(db: db_dependency, skip: int = 0, limit: int = 100)
         .all()
     )
     return schedules
+
+
+@app.post(
+    "/visits",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.VisitBase,
+)
+async def visit_create(schedule: schemas.VisitCreate, db: db_dependency):
+    db_visit = models.Visit(**schedule.model_dump())
+    db.add(db_visit)
+    db.commit()
+    return db_visit
+
+
+@app.put("/visits/{visit_id}", response_model=schemas.VisitBase)
+async def edit_visit(visit_id: int, user_id: int, db: db_dependency):
+    db_visit = db.query(models.Visit).filter(models.Visit.id == visit_id).first()
+    if db_visit is None:
+        raise HTTPException(status_code=404, detail="Visit not found")
+
+    db.query(models.Visit).filter(models.Visit.id == visit_id).update(
+        {"user_id": user_id, "is_reserved": True}
+    )
+    db.commit()
+    db.refresh(db_visit)
+
+    return db_visit
+
+
+@app.get("/visits", status_code=status.HTTP_200_OK)
+async def read_all_visits(db: db_dependency, skip: int = 0, limit: int = 100):
+    visits = (
+        db.query(models.Visit)
+        .offset(skip)
+        .limit(limit)
+        .options(joinedload(models.Visit.user), joinedload(models.Visit.doctor))
+        .all()
+    )
+    return visits
 
 
 @app.get("/specialities", status_code=status.HTTP_200_OK)

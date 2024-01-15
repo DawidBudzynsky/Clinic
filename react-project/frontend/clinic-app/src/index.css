@@ -130,3 +130,13 @@ select:hover {
   background: linear-gradient(to bottom right, #3ded97, #028A0F);
   height: 100vh;
 }
+
+.visit-remove-transition {
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+  /* Adjust the duration and easing function as needed */
+}
+
+.visit-remove-transition.visit-removed {
+  opacity: 0;
+}

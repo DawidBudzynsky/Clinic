@@ -31,6 +31,11 @@ export default function Navbar() {
               Schedules
             </a>
           </li>
+          <li>
+            <a className="nav-link" href="/visits">
+              Visits
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

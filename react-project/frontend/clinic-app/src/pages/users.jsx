@@ -18,11 +18,12 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const response = await api.get(USERS_URL);
+      //NOTE: thats arbitrally set i guess
       setAuthorized(true);
       setUsers(response.data);
     } catch (error) {
       console.log(error);
-      setAuthorized(true);
+      setAuthorized(false);
       toastError("You are not authorized to see this content");
     }
 

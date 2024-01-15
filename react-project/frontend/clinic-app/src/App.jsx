@@ -4,6 +4,7 @@ import Doctors from "./pages/Doctors";
 import Login from "./pages/Login";
 import 'react-toastify/dist/ReactToastify.css';
 import Schedules from "./pages/Schedules";
+import Visits from "./pages/Visits";
 import UserHomePage from "./pages/UserHomePage";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/schedules" element={<Schedules />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user_home" element={<UserHomePage />} />
+        <Route path="/visits" element={<Visits />} />
       </Routes>
       <div class="footer">
         <p>123 Medical Street, Cityville | Phone: (123) 456-7890 | Email: info@clinicmanagement.com</p>
