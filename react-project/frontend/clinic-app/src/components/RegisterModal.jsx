@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import api from "../api";
 import React, { useState } from "react";
+import { HOME, USERS_URL } from "../apiurls";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function RegisterModal({ show, handleClose }) {
   const [formData, setFormData] = useState({
@@ -14,12 +16,25 @@ export default function RegisterModal({ show, handleClose }) {
     is_admin: false,
     is_active: false,
   });
-  const postUserLink = "/users/";
+
+  const notifySuccess = () => toast.success("Registered succesfuly! Now LOG IN!");
+  const notifyError = () => toast.error("Something went wrong");
+  const goToHome = () => {
+    window.location.href = HOME;
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await api.post(postUserLink, formData);
-    handleClose();
-    console.log(response);
+    try {
+      const response = await api.post(USERS_URL, formData);
+      handleClose();
+      console.log(response);
+      notifySuccess();
+      setTimeout(goToHome, 2000);
+
+    } catch (error) {
+      console.error(error);
+      notifyError();
+    }
   };
 
   const handleInputChange = (event) => {
@@ -99,6 +114,7 @@ export default function RegisterModal({ show, handleClose }) {
         <button className="loginButton mx-auto" variant="primary" onClick={handleSubmit}>
           Submit
         </button>
+        <ToastContainer />
       </Modal.Footer>
     </Modal >
   );

@@ -69,7 +69,7 @@ class Visit(Base):
 class Schedule(Base):
     __tablename__ = "schedules"
     id = Column(Integer, primary_key=True, index=True)
-    doctor_id = Column(Integer, ForeignKey("doctors.id"))
+    doctor_id = Column(Integer, ForeignKey("doctors.id"))  # ForeignKey constraint added
     doctor = relationship("Doctor", back_populates="schedules")
     day = Column(Date)
     start = Column(Time)
