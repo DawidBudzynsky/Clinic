@@ -48,11 +48,13 @@ const Visits = () => {
         {group === 'Doctor' ? (
           <DoctorVisitsTable visits={visits} onApply={onApply} />
         ) : (
-          <VisitsTable visits={visits} onApply={onApply} />
+          <>
+            <VisitsTable visits={visits} onApply={onApply} />
+            <button className="whiteButton" variant="primary" onClick={handleShow}>
+              Add User
+            </button>
+          </>
         )}
-        <button className="whiteButton" variant="primary" onClick={handleShow}>
-          Add User
-        </button>
         <AddUserModal show={show} handleClose={handleClose} />
       </div>
       <div className="greenBackground"></div>
