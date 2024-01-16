@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function Navbar() {
   const token = sessionStorage.getItem("accessToken");
+  const group = sessionStorage.getItem("userGroup");
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-5">
       <a className="navbar-brand" href="#">
@@ -31,6 +32,13 @@ export default function Navbar() {
               Schedules
             </a>
           </li>
+          {group === 'Admin' ? (
+            <li>
+              <a className="nav-link" href="/doctors">
+                Doctors
+              </a>
+            </li>
+          ) : null}
           <li>
             <a className="nav-link" href="/visits">
               Visits

@@ -6,6 +6,7 @@ import ErrorPage from "./ErrorPage";
 import { VISITS } from "../apiurls";
 import { toast, ToastContainer } from "react-toastify";
 import VisitsTable from "../components/VisitsTable";
+import DoctorVisitsTable from "../components/DoctorVisitsTable";
 
 const Visits = () => {
   const [visits, setVisits] = useState([]);
@@ -15,6 +16,7 @@ const Visits = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const toastError = (text) => toast.error(text);
+  const group = sessionStorage.getItem("userGroup");
 
   const onApply = () => {
     setRefresh((prev) => !prev)
@@ -43,7 +45,11 @@ const Visits = () => {
       <Navbar />
       <div className="container my-4">
         <h1>Visits</h1>
-        <VisitsTable visits={visits} onApply={onApply} />
+        {group === 'Doctor' ? (
+          <DoctorVisitsTable visits={visits} onApply={onApply} />
+        ) : (
+          <VisitsTable visits={visits} onApply={onApply} />
+        )}
         <button className="whiteButton" variant="primary" onClick={handleShow}>
           Add User
         </button>

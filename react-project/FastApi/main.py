@@ -172,8 +172,8 @@ async def read_all_schedules(db: db_dependency, skip: int = 0, limit: int = 100)
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.VisitBase,
 )
-async def visit_create(schedule: schemas.VisitCreate, db: db_dependency):
-    db_visit = models.Visit(**schedule.model_dump())
+async def visit_create(visit: schemas.VisitCreate, db: db_dependency):
+    db_visit = models.Visit(**visit.model_dump())
     db.add(db_visit)
     db.commit()
     return db_visit
@@ -191,6 +191,24 @@ async def edit_visit(visit_id: int, user_id: int, db: db_dependency):
     db.commit()
     db.refresh(db_visit)
 
+    return db_visit
+
+
+@app.patch("/visits/{visit_id}", response_model=schemas.VisitBase)
+async def edit_visit_description(
+    visit_id: int, visit: schemas.VisitUpdate, db: db_dependency
+):
+    db_visit = db.query(models.Visit).filter(models.Visit.id == visit_id).first()
+    if db_visit is None:
+        raise HTTPException(status_code=404, detail="Visit not found")
+
+    update_data = visit.model_dump(exclude_unset=True)
+    db.query(models.Visit).filter(models.Visit.id == visit_id).update(
+        values=update_data
+    )
+
+    db.commit()
+    db.refresh(db_visit)
     return db_visit
 
 

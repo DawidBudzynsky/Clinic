@@ -74,6 +74,10 @@ class VisitCreate(VisitBase):
     pass
 
 
+class VisitUpdate(BaseModel):
+    description: str
+
+
 class Visit(VisitBase):
     id: int
     row_version: str | None = None
