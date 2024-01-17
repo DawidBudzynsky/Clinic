@@ -42,7 +42,7 @@ export default function DoctorVisitsTable({ visits, onApply }) {
       <DescriptionModal visit={chosenVisit} show={show} handleClose={hideModal} onApply={onApply} />
       <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
         <div className="d-flex mb-3 justify-content-between">
-          <SearchBar haveSearch={false} haveDate={true} setDateSearch={(e) => setSearchDate(new Date(e.nativeEvent.target.value).toLocaleDateString())} />
+          <SearchBar haveSearch={false} haveDate={true} setDateSearch={(e) => setSearchDate(e.nativeEvent.target.value)} />
         </div>
         <table className="table table-striped" >
           <thead>
@@ -57,7 +57,7 @@ export default function DoctorVisitsTable({ visits, onApply }) {
           </thead>
           <tbody>
             {visits.filter((item) => (item.is_reserved && item.doctor.username == currentUser.username) &&
-              (searchDate === "" || new Date(item.visit_date).toLocaleDateString() === searchDate)
+              (searchDate === "" || new Date(item.visit_date).toLocaleDateString() === new Date(searchDate).toLocaleDateString())
             ).map((visit, index) => (
               <tr key={visit.id} >
                 <th scope="row">{index + 1}</th>
