@@ -11,6 +11,7 @@ from sqlalchemy import (
     Text,
     Boolean,
     UniqueConstraint,
+    func,
 )
 from sqlalchemy.orm import relationship
 from enum import Enum as PyEnum
@@ -67,7 +68,9 @@ class Visit(Base):
     doctor_id = Column(Integer, ForeignKey("doctors.id"))
     doctor = relationship("Doctor", back_populates="visits")
     is_reserved = Column(Boolean, default=False)
-    row_version = Column(String(50), nullable=True)
+    row_version = Column(Integer, nullable=False)
+
+    __mapper_args__ = {"version_id_col": row_version}
 
 
 class Schedule(Base):

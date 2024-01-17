@@ -76,11 +76,12 @@ class VisitCreate(VisitBase):
 
 class VisitUpdate(BaseModel):
     description: str
+    row_version: int
 
 
 class Visit(VisitBase):
     id: int
-    row_version: str | None = None
+    row_version: int | None = None
     user: User | None = None
     doctor: Doctor | None = None
 

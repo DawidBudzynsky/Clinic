@@ -12,6 +12,7 @@ from database import get_db
 from schemas import Groupe
 from typing import Union
 from sqlalchemy.orm.strategy_options import joinedload
+from sqlalchemy.orm.exc import StaleDataError
 
 app = FastAPI()
 app.include_router(auth.router)
@@ -201,15 +202,21 @@ async def edit_visit_description(
     db_visit = db.query(models.Visit).filter(models.Visit.id == visit_id).first()
     if db_visit is None:
         raise HTTPException(status_code=404, detail="Visit not found")
+    if db_visit.row_version != visit.row_version:
+        raise HTTPException(status_code=409, detail="Data has changed")
 
     update_data = visit.model_dump(exclude_unset=True)
-    db.query(models.Visit).filter(models.Visit.id == visit_id).update(
-        values=update_data
-    )
+    for key, value in update_data.items():
+        setattr(db_visit, key, value)
 
-    db.commit()
-    db.refresh(db_visit)
-    return db_visit
+    try:
+        db.commit()
+        db.refresh(db_visit)
+        return db_visit
+    except StaleDataError:
+        raise HTTPException(
+            status_code=409, detail="Data has changed. Please refresh and try again."
+        )
 
 
 @app.get("/visits", status_code=status.HTTP_200_OK)
