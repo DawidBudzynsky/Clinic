@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from starlette.status import HTTP_200_OK
 import models
 from database import engine, SessionLocal
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, declarative_base
 import schemas
 from fastapi.middleware.cors import CORSMiddleware
 import auth
@@ -193,6 +193,32 @@ async def edit_visit(visit_id: int, user_id: int, db: db_dependency):
     db.refresh(db_visit)
 
     return db_visit
+
+
+@app.put(
+    "/visits/cancel/{visit_id}/{visit_row_version}", response_model=schemas.VisitBase
+)
+async def edit_visit_reservation(
+    visit_id: int, visit_row_version: int, db: db_dependency
+):
+    db_visit = db.query(models.Visit).filter(models.Visit.id == visit_id).first()
+    if db_visit is None:
+        raise HTTPException(status_code=404, detail="Visit not found")
+    if db_visit.row_version != visit_row_version:
+        raise HTTPException(status_code=409, detail="Data has changed")
+
+    db_visit.user_id = None
+    db_visit.is_reserved = False
+    db_visit.description = None
+
+    db.commit()
+    db.refresh(db_visit)
+    try:
+        db.commit()
+        db.refresh(db_visit)
+        return db_visit
+    except StaleDataError:
+        raise HTTPException(status_code=409, detail="Somethign went wrong")
 
 
 @app.patch("/visits/{visit_id}", response_model=schemas.VisitBase)

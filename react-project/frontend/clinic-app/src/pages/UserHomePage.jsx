@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";
+import MyNavbar from "../components/navbar";
 import UserProfileCard from "../components/UserProfileCard";
 import { Col, Row } from "react-bootstrap";
 import { CURRENT_USER } from "../apiurls";
@@ -28,7 +28,7 @@ const UserHomePage = () => {
 
   return (
     <div>
-      <Navbar />
+      <MyNavbar />
       <Row style={{ paddingLeft: '20%', paddingRight: '20%' }}>
         <Col>
           <UserProfileCard userData={userData} />

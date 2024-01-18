@@ -32,7 +32,7 @@ export default function DescriptionModal({ visit, show, handleClose, onApply }) 
       }
     } catch (error) {
       console.error(error);
-      toast.error("Data was already changed before :(")
+      toast.error("Data was already changed or cancelled before :(")
       onApply();
     }
     handleClose();

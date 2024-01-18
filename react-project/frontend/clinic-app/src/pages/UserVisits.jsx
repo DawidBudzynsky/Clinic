@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import VisitsTable from "../components/VisitsTable";
 import CurrentUserVisitsTable from "../components/CurrentUserVisitsTable";
 
-const Visits = () => {
+const UserVisits = () => {
   const [visits, setVisits] = useState([]);
   const [show, setShow] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -44,21 +44,15 @@ const Visits = () => {
       <ToastContainer />
       <Navbar />
       <div className="container my-4">
-        <h1>Visits</h1>
-        {group === 'Doctor' ? (
-          <CurrentUserVisitsTable visits={visits} onApply={onApply} />
-        ) : (
-          <>
-            <VisitsTable visits={visits} onApply={onApply} />
-            <button className="whiteButton" variant="primary" onClick={handleShow}>
-              Add User
-            </button>
-          </>
-        )}
+        <h1>My Visits</h1>
+        <CurrentUserVisitsTable visits={visits} onApply={onApply} />
+        <button className="whiteButton" variant="primary" onClick={handleShow}>
+          Add User
+        </button>
         <AddUserModal show={show} handleClose={handleClose} />
       </div>
       <div className="greenBackground"></div>
     </div>
   );
 };
-export default Visits;
+export default UserVisits;

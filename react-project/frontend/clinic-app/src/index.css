@@ -128,7 +128,7 @@ select:hover {
 
 .gradientStyle {
   background: linear-gradient(to bottom right, #3ded97, #028A0F);
-  height: 100vh;
+  height: 100%;
 }
 
 .visit-remove-transition {
