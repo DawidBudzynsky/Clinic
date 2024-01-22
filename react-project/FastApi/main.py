@@ -90,6 +90,30 @@ async def update_user(user_id: int, user: schemas.UserEdit, db: db_dependency):
     return db_user
 
 
+@app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, db: db_dependency):
+    # Check if the user exists
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    visits_to_update = (
+        db.query(models.Visit).filter(models.Visit.user_id == user_id).all()
+    )
+    for visit in visits_to_update:
+        visit.user_id = None
+        visit.is_reserved = False
+    try:
+        db.commit()
+        db.delete(db_user)
+        db.commit()
+        return None
+    except StaleDataError:
+        raise HTTPException(
+            status_code=409, detail="Data has changed. Please refresh and try again."
+        )
+
+
 @app.get("/current_user", status_code=status.HTTP_200_OK)
 async def current_user(user: user_dependency, db: db_dependency):
     if user is None:
