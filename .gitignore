@@ -1,0 +1,2 @@
+# Ignore Python pycache files
+__pycache__/
