@@ -19,6 +19,11 @@ export default function UserInfoModal({ show, handleClose, userInfo, onApply }) 
     setIsEditMode(true);
   };
 
+  const handleCloseEdit = () => {
+    handleClose();
+    setIsEditMode(false);
+  };
+
   const handleSaveClick = () => {
     handleClose();
     handleSubmit();
@@ -126,7 +131,7 @@ export default function UserInfoModal({ show, handleClose, userInfo, onApply }) 
             Edit
           </Button>
         )}
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseEdit}>
           Close
         </Button>
       </Modal.Footer>
