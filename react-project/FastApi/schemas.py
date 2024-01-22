@@ -55,6 +55,17 @@ class DoctorBase(BaseModel):
     speciality: Speciality
 
 
+class DoctorEdit(BaseModel):
+    email: EmailStr | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    speciality: Speciality
+
+    class Config:
+        from_attributes = True
+        exclude = {"visits"}
+
+
 class DoctorCreate(DoctorBase):
     pass
 

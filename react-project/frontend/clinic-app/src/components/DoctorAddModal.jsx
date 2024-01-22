@@ -42,7 +42,6 @@ export default function AddDoctorModal({ show, handleClose }) {
 
   const handleInputChange = (event) => {
     const { name, type, checked, value } = event.target;
-    // NOTE: somewhow have to figure out how to do select
     const inputValue = type === "checkbox" ? checked : value;
     setFormData({
       ...formData,

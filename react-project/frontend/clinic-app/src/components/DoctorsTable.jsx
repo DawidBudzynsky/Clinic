@@ -5,7 +5,7 @@ import api from "../api";
 import { SPECIALITIES_URL } from "../apiurls";
 import SearchBar from "./SearchBar";
 
-export default function DoctorsTable({ doctors }) {
+export default function DoctorsTable({ doctors, onApply }) {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState('');
   const [specialities, setSpecialities] = useState([])
@@ -36,7 +36,7 @@ export default function DoctorsTable({ doctors }) {
 
   return (
     <>
-      <DoctorInfoModal show={show} handleClose={handleClose} doctorInfo={doctorToShow} />
+      <DoctorInfoModal show={show} handleClose={handleClose} doctorInfo={doctorToShow} specialities={specialities} onApply={onApply} />
       <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
         <div className="d-flex mb-3 justify-content-between">
           <SearchBar setSearch={(e) => setSearch(e.target.value)} haveSelect={true} selectValues={specialities} setSelectSearch={(e) => setSpecialitySearch(e.target.value)} />

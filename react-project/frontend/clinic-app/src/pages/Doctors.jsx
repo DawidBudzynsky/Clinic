@@ -9,8 +9,7 @@ import AddDoctorModal from "../components/DoctorAddModal";
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
   const [show, setShow] = useState(false);
-  // NOTE: not needed now, dont have add modal
-  // const handleClose = () => setShow(false);
+  const [refresh, setRefresh] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
@@ -20,9 +19,13 @@ const Doctors = () => {
     setDoctors(response.data);
   };
 
+  const onApply = () => {
+    setRefresh((prev) => !prev)
+  }
+
   useEffect(() => {
     fetchDoctors();
-  }, [show]);
+  }, [show, refresh]);
 
   return (
     <div>
@@ -30,7 +33,7 @@ const Doctors = () => {
       <Navbar />
       <div className="container my-4 ">
         <h1>Doctors</h1>
-        <DoctorsTable doctors={doctors} />
+        <DoctorsTable doctors={doctors} onApply={onApply} />
         <button className="whiteButton" variant="primary" onClick={handleShow}>
           Add Doctor
         </button>

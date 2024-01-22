@@ -125,6 +125,21 @@ async def read_all_doctors(db: db_dependency, skip: int = 0, limit: int = 100):
     return doctors
 
 
+@app.patch("/doctors/{doctor_id}")
+async def update_doctor(doctor_id: int, doctor: schemas.DoctorEdit, db: db_dependency):
+    db_doctor = db.get(models.Doctor, doctor_id)
+    if not db_doctor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    doctor_data = doctor.model_dump(exclude_unset=True)
+    for key, value in doctor_data.items():
+        setattr(db_doctor, key, value)
+    db.commit()
+    db.refresh(db_doctor)
+    return db_doctor
+
+
 def create_visits(schedule: schemas.ScheduleCreate):
     start_datetime = datetime.combine(schedule.day, schedule.start)
     finish_datetime = datetime.combine(schedule.day, schedule.finish)
