@@ -10,14 +10,21 @@ import { toast, ToastContainer } from "react-toastify";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const toastError = (text) => toast.error(text);
+  const token = sessionStorage.getItem("accessToken");
 
   const fetchUsers = async () => {
+    const headers = {
+      headers: {
+        Authorization: token,
+      },
+    };
     try {
-      const response = await api.get(USERS_URL);
+      const response = await api.get(USERS_URL, headers);
       //NOTE: thats arbitrally set i guess
       setAuthorized(true);
       setUsers(response.data);
@@ -28,27 +35,26 @@ const Users = () => {
     }
 
   };
+  const onApply = (prev) => {
+    setRefresh((prev) => !prev)
+  }
 
   useEffect(() => {
     fetchUsers();
-  }, [show]);
+  }, [show, refresh]);
 
   return (
     <div>
       <ToastContainer />
       <Navbar />
-      {!!authorized ? (
-        <ErrorPage />
-      ) : (
-        <div className="container my-4">
-          <h1>Users</h1>
-          <UsersTable users={users} />
-          <button className="whiteButton" variant="primary" onClick={handleShow}>
-            Add User
-          </button>
-          <AddUserModal show={show} handleClose={handleClose} />
-        </div>
-      )}
+      <div className="container my-4">
+        <h1>Users</h1>
+        <UsersTable users={users} onApply={onApply} />
+        <button className="whiteButton" variant="primary" onClick={handleShow}>
+          Add User
+        </button>
+        <AddUserModal show={show} handleClose={handleClose} />
+      </div>
       <div className="greenBackground"></div>
     </div>
   );

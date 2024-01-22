@@ -2,7 +2,7 @@ import UserInfoModal from "./userInfoModal";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 
-export default function UsersTable({ users }) {
+export default function UsersTable({ users, onApply }) {
   const [show, setShow] = useState(false);
   const [userToShow, setUserToShow] = useState({});
   const [search, setSearch] = useState('');
@@ -17,7 +17,7 @@ export default function UsersTable({ users }) {
 
   return (
     <>
-      <UserInfoModal show={show} handleClose={handleClose} userInfo={userToShow} />
+      <UserInfoModal show={show} handleClose={handleClose} userInfo={userToShow} onApply={onApply} />
       <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
 
         <div className="d-flex mb-3 justify-content-between">

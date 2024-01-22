@@ -75,6 +75,21 @@ async def read_all_users(db: db_dependency, skip: int = 0, limit: int = 100):
     return users
 
 
+@app.patch("/users/{user_id}", response_model=schemas.User)
+async def update_user(user_id: int, user: schemas.UserEdit, db: db_dependency):
+    db_user = db.get(models.User, user_id)
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    user_data = user.model_dump(exclude_unset=True)
+    for key, value in user_data.items():
+        setattr(db_user, key, value)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
 @app.get("/current_user", status_code=status.HTTP_200_OK)
 async def current_user(user: user_dependency, db: db_dependency):
     if user is None:
