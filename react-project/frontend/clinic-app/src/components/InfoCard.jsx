@@ -1,14 +1,11 @@
 import {
-  Container,
   Row,
   Col,
   Card,
   CardText,
-  Image,
-  CardBody,
 } from "react-bootstrap";
 
-const UserProfileCard = ({ title, description }) => {
+const InfoCard = ({ title, description }) => {
   return (
     <>
       <Col className="mx-auto px-5">
@@ -28,4 +25,4 @@ const UserProfileCard = ({ title, description }) => {
     </>
   )
 }
-export default UserProfileCard;
+export default InfoCard;
