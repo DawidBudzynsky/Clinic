@@ -13,6 +13,7 @@ from schemas import Groupe
 from typing import Union
 from sqlalchemy.orm.strategy_options import joinedload
 from sqlalchemy.orm.exc import StaleDataError
+from sqlalchemy import func
 
 app = FastAPI()
 app.include_router(auth.router)
@@ -220,6 +221,43 @@ async def read_all_schedules(db: db_dependency, skip: int = 0, limit: int = 100)
         .all()
     )
     return schedules
+
+
+@app.delete("/schedules/{schedule_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_schedule(schedule_id: int, db: db_dependency):
+    db_schedule = (
+        db.query(models.Schedule).filter(models.Schedule.id == schedule_id).first()
+    )
+    if db_schedule is None:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+
+    visits_to_remove = (
+        db.query(models.Visit)
+        .filter(models.Visit.doctor_id == db_schedule.doctor_id)
+        .filter(func.date(models.Visit.visit_date) == db_schedule.day)
+        .filter(func.time(models.Visit.visit_date) >= db_schedule.start)
+        .filter(func.time(models.Visit.visit_date) <= db_schedule.finish)
+        .all()
+    )
+    # NOTE: should add here remove_visit function, will do
+    for visit in visits_to_remove:
+        try:
+            db.delete(visit)
+            db.commit()
+        except:
+            raise HTTPException(
+                status_code=409,
+                detail="Data has changed. Please refresh and try again.",
+            )
+    try:
+        db.commit()
+        db.delete(db_schedule)
+        db.commit()
+        return None
+    except StaleDataError:
+        raise HTTPException(
+            status_code=409, detail="Data has changed. Please refresh and try again."
+        )
 
 
 @app.post(

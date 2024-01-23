@@ -2,10 +2,12 @@ import DoctorInfoModal from "./DoctorInfoModal";
 import { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import api from "../api";
-import { DOCTORS_URL } from "../apiurls";
+import { DOCTORS_URL, DELETE_SCHEDULE } from "../apiurls";
+import { toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-export default function SchedulesTable({ schedules }) {
+export default function SchedulesTable({ schedules, onApply }) {
   const [show, setShow] = useState(false);
   const [doctors, setDoctors] = useState([]);
   const [scheduleToShow, setScheduleToShow] = useState({});
@@ -26,6 +28,23 @@ export default function SchedulesTable({ schedules }) {
       setDoctors(response.data);
     } catch (error) {
       console.error(error)
+    }
+  };
+
+  const handleDeleteSchedule = (schedule) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this schedule? It will delete all its doctors visits.",
+    );
+    if (confirmation) {
+      try {
+        api.delete(`${DELETE_SCHEDULE}` + schedule.id);
+        toast.success("Schedule deleted successfully");
+        onApply();
+      } catch (error) {
+        console.error(error);
+        toast.error("Error deleting schedule");
+        onApply();
+      }
     }
   };
 
@@ -63,7 +82,14 @@ export default function SchedulesTable({ schedules }) {
                 <td>{schedule.day}</td>
                 <td>{schedule.start}</td>
                 <td>{schedule.finish}</td>
-                <td></td>
+                <td>
+                  <Button
+                    className="primary btn-danger"
+                    onClick={() => handleDeleteSchedule(schedule)}
+                  >
+                    Delete
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

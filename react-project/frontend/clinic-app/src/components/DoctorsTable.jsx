@@ -1,8 +1,10 @@
 import DoctorInfoModal from "./DoctorInfoModal";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import api from "../api";
-import { SPECIALITIES_URL } from "../apiurls";
+import { DELETE_DOCTOR, SPECIALITIES_URL } from "../apiurls";
 import SearchBar from "./SearchBar";
 
 export default function DoctorsTable({ doctors, onApply }) {
@@ -27,6 +29,23 @@ export default function DoctorsTable({ doctors, onApply }) {
       console.log(specialities)
     } catch (error) {
       console.error("Error fetching specialities:", error);
+    }
+  };
+
+  const handleDeleteDoctor = (doctor) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this doctor?",
+    );
+    if (confirmation) {
+      try {
+        api.delete(`${DELETE_DOCTOR}` + doctor.id);
+        toast.success("Doctor deleted successfully");
+        onApply();
+      } catch (error) {
+        console.error(error);
+        toast.error("Error deleting doctor");
+        onApply();
+      }
     }
   };
 
@@ -64,7 +83,15 @@ export default function DoctorsTable({ doctors, onApply }) {
                 <td>{doctor.username}</td>
                 <td>{doctor.first_name}</td>
                 <td>{doctor.last_name}</td>
-                <td></td>
+                <td>
+                  {/* NOTE: for now button not working */}
+                  <Button
+                    className="primary btn-danger"
+                    onClick={() => handleDeleteDoctor(doctor)}
+                  >
+                    Delete
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
