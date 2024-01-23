@@ -62,7 +62,9 @@ export default function VisitsTable({ visits, onApply }) {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Doctor</th>
+              <th scope="col">Speciality</th>
               <th scope="col">Date</th>
+              <th scope="col">Time</th>
               <th scope="col">Description</th>
               <th scope="col">Actions</th>
             </tr>
@@ -74,7 +76,9 @@ export default function VisitsTable({ visits, onApply }) {
               <tr key={visit.id} >
                 <th scope="row">{index + 1}</th>
                 <td>{visit.doctor.username}</td>
-                <td>{visit.visit_date}</td>
+                <td>{visit.doctor.speciality}</td>
+                <td>{new Date(visit.visit_date).toLocaleDateString()}</td>
+                <td>{new Date(visit.visit_date).toLocaleTimeString()}</td>
                 <td>{visit.description}</td>
                 <td>
                   <Button className="applyButton" onClick={() => handleButtonClicked(visit.id)}>

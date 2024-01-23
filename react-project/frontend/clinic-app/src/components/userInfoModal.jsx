@@ -123,7 +123,7 @@ export default function UserInfoModal({ show, handleClose, userInfo, onApply }) 
         {/* NOTE: Not implemented yet */}
 
         {isEditMode ? (
-          <Button variant="primary" onClick={handleSaveClick}>
+          <Button className="applyButton" onClick={handleSaveClick}>
             Save
           </Button>
         ) : (

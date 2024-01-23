@@ -143,7 +143,7 @@ export default function DoctorInfoModal({ show, handleClose, doctorInfo, special
       <Modal.Footer>
         {/* NOTE: Not implemented yet */}
         {isEditMode ? (
-          <Button variant="primary" onClick={handleSaveButton}>
+          <Button className="applyButton" onClick={handleSaveButton}>
             Save
           </Button>
         ) : (

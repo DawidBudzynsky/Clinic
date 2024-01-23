@@ -149,3 +149,16 @@ select:hover {
 .applyButton:hover {
   background: #23AC2F;
 }
+
+.applyButton.clicked {
+  background: #028A0F;
+}
+
+.cancelButton {
+  background: #D0312D;
+  border: none;
+}
+
+.cancelButton:hover {
+  background: #B90E0A;
+}

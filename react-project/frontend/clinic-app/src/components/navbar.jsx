@@ -35,7 +35,7 @@ export default function MyNavbar() {
                 <Nav.Link href="/my_visits">My Visits</Nav.Link>
               </>
             )}
-            {group === "Dotor" && (
+            {group === "Doctor" && (
               <>
                 <Nav.Link href="/my_visits">My Visits</Nav.Link>
               </>

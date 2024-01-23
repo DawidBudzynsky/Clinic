@@ -62,7 +62,7 @@ export default function DescriptionModal({ visit, show, handleClose, onApply }) 
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleAddDescription}>
+          <Button className="applyButton" onClick={handleAddDescription}>
             Zapisz
           </Button>
           <Button variant="secondary" onClick={handleClose}>

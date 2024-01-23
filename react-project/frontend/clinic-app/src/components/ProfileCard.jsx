@@ -19,7 +19,7 @@ export default function ProfileCard({ userData }) {
                 md="4"
                 className="d-flex flex-column align-items-center justify-content-center rounded-start-4 gradient-custom text-center text-black"
               >
-
+                {/* NOTE: there should be a circle */}
                 <CardText className="h3 mb-3">
                   {userData.first_name} {userData.last_name}
                 </CardText>
@@ -81,13 +81,6 @@ export default function ProfileCard({ userData }) {
                 </CardBody>
               </Col>
             </Col>
-            {userData.groupe == "Doctor" ? (
-              <Col className="col-4 text-white">
-                <div className="gradientStyle d-flex justify-content-center py-3 h5">
-                  Upcoming Visits
-                </div>
-              </Col>
-            ) : null}
           </Row>
         </Card>
       </Col >

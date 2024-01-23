@@ -25,7 +25,13 @@ export default function CurrentUserVisitsTable({ visits, onApply }) {
   }
 
   const handleCancelButton = (visit) => {
-    setVisitToCancel(visit);
+
+    const confirmation = window.confirm(
+      "Are you sure you want to cancel this visit?",
+    );
+    if (confirmation) {
+      setVisitToCancel(visit);
+    }
   }
 
   const handleCancelVisit = async () => {
@@ -99,21 +105,17 @@ export default function CurrentUserVisitsTable({ visits, onApply }) {
                 <td>{visit.description}</td>
                 <td className="d-flex justify-content-center">
 
-                  {group === "Doctor" ? (
-                    <Button className="primary" onClick={() => handleAddDescriptionButton(visit)} >
-                      ADD DESCRIPTION
+                  <div>
+                    <Button className="applyButton" onClick={() => handleAddDescriptionButton(visit)} >
+                      EDIT DESCRIPTION
                     </Button>
-                  ) : (
-                    <>
-                      <Button className="primary" onClick={() => handleAddDescriptionButton(visit)} >
-                        EDIT DESCRIPTION
-                      </Button>
 
-                      <Button onClick={() => handleCancelButton(visit)} >
+                    {group === "User" ? (
+                      <Button className="cancelButton" style={{ marginLeft: "2px" }} onClick={() => handleCancelButton(visit)} >
                         CANCEL
                       </Button>
-                    </>
-                  )}
+                    ) : null}
+                  </div>
                 </td>
               </tr>
             ))}
