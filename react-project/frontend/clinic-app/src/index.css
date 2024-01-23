@@ -140,3 +140,12 @@ select:hover {
 .visit-remove-transition.visit-removed {
   opacity: 0;
 }
+
+.applyButton {
+  background: #028A0F;
+  border: none;
+}
+
+.applyButton:hover {
+  background: #23AC2F;
+}

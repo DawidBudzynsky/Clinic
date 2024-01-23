@@ -77,7 +77,7 @@ export default function VisitsTable({ visits, onApply }) {
                 <td>{visit.visit_date}</td>
                 <td>{visit.description}</td>
                 <td>
-                  <Button className="primary" onClick={() => handleButtonClicked(visit.id)}>
+                  <Button className="applyButton" onClick={() => handleButtonClicked(visit.id)}>
                     APPLY
                   </Button>
                 </td>

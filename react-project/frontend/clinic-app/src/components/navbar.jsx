@@ -7,6 +7,12 @@ import Navbar from "react-bootstrap/Navbar";
 export default function MyNavbar() {
   const token = sessionStorage.getItem("accessToken");
   const group = sessionStorage.getItem("userGroup");
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("userData");
+    window.location.href = "/login";
+  };
   return (
 
     <Navbar
@@ -20,13 +26,26 @@ export default function MyNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/users">Users</Nav.Link>
-            <Nav.Link href="/doctors">Doctors</Nav.Link>
-            <Nav.Link href="/schedules">Schedules</Nav.Link>
-            <Nav.Link href="/visits">Visits</Nav.Link>
-            {group === "User" ? (
-              <Nav.Link href="/my_visits">My Visits</Nav.Link>
-            ) : null}
+            {group === "Admin" && (
+              <>
+                <Nav.Link href="/users">Users</Nav.Link>
+                <Nav.Link href="/doctors">Doctors</Nav.Link>
+                <Nav.Link href="/schedules">Schedules</Nav.Link>
+                <Nav.Link href="/visits">Visits</Nav.Link>
+                <Nav.Link href="/my_visits">My Visits</Nav.Link>
+              </>
+            )}
+            {group === "Dotor" && (
+              <>
+                <Nav.Link href="/my_visits">My Visits</Nav.Link>
+              </>
+            )}
+            {group === "User" && (
+              <>
+                <Nav.Link href="/visits">Visits</Nav.Link>
+                <Nav.Link href="/my_visits">My Visits</Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -38,7 +57,7 @@ export default function MyNavbar() {
                 <Nav.Link href="/profile">Your Profile</Nav.Link>
               </Navbar.Text>
               <Navbar.Text className="px-2">
-                <Nav.Link href="/logout">Log out</Nav.Link>
+                <a onClick={handleLogout} style={{ cursor: "pointer" }}>Log out</a>
               </Navbar.Text>
             </div>
           ) : (
@@ -48,48 +67,6 @@ export default function MyNavbar() {
           )}
         </Navbar.Collapse>{" "}
       </Container>
-    </Navbar>
-    // <nav className="navbar navbar-expand-lg navbar-light bg-light px-5">
-    //   <a className="navbar-brand" href="#">
-    //     Navbar
-    //   </a>
-    //   <button
-    //     className="navbar-toggler"
-    //     type="button"
-    //     data-bs-toggle="collapse"
-    //     data-bs-target="#navbarNavDropdown"
-    //     aria-controls="navbarNavDropdown"
-    //     aria-expanded="false"
-    //     aria-label="Toggle navigation"
-    //   >
-    //     <span className="navbar-toggler-icon"></span>
-    //   </button>
-    //   <div className="collapse navbar-collapse" id="navbarNavDropdown">
-    //     <ul className="navbar-nav">
-    //       <li className="nav-item active">
-    //         <a className="nav-link" href="/user_home">
-    //           Home <span className="sr-only"></span>
-    //         </a>
-    //       </li>
-    //       <li>
-    //         <a className="nav-link" href="/schedules">
-    //           Schedules
-    //         </a>
-    //       </li>
-    //       {group === 'Admin' ? (
-    //         <li>
-    //           <a className="nav-link" href="/doctors">
-    //             Doctors
-    //           </a>
-    //         </li>
-    //       ) : null}
-    //       <li>
-    //         <a className="nav-link" href="/visits">
-    //           Visits
-    //         </a>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </nav>
+    </Navbar >
   );
 }

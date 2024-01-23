@@ -115,7 +115,7 @@ function Login() {
                   <button
                     className='loginButton'
                     variant="secondary"
-                    type="button"
+                    type="submit"
                     onClick={handleSubmit}
                   >
                     Login
