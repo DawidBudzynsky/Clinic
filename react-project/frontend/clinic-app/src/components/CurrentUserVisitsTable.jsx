@@ -63,8 +63,8 @@ export default function CurrentUserVisitsTable({ visits, onApply }) {
   return (
     <>
       <DescriptionModal visit={chosenVisit} show={show} handleClose={hideModal} onApply={onApply} />
-      <div className="px-3 py-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', backgroundColor: 'white' }}>
-        <div className="d-flex mb-3 justify-content-between">
+      <div className="px-3 shadow rounded-3 mb-5" style={{ minHeight: '60vh', maxHeight: '60vh', backgroundColor: 'white', overflowY: 'auto' }}>
+        <div className="d-flex mb-3 mt-3 justify-content-between" style={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1000 }}>
           <SearchBar haveSearch={false} haveDate={true} setDateSearch={(e) => setSearchDate(e.nativeEvent.target.value)} />
         </div>
         <table className="table table-striped" >
