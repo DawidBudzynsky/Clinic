@@ -20,8 +20,7 @@ export default function MyNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            {/* <Nav.Link href="/">Patients</Nav.Link> */}
+            <Nav.Link href="/users">Users</Nav.Link>
             <Nav.Link href="/doctors">Doctors</Nav.Link>
             <Nav.Link href="/schedules">Schedules</Nav.Link>
             <Nav.Link href="/visits">Visits</Nav.Link>

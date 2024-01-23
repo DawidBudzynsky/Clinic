@@ -6,18 +6,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import Schedules from "./pages/Schedules";
 import Visits from "./pages/Visits";
 import UserVisits from "./pages/UserVisits";
-import UserHomePage from "./pages/UserHomePage";
 import Profile from "./pages/Profile";
-
+import LandingPage from "./pages/LandingPage";
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Users />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/schedules" element={<Schedules />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/user_home" element={<UserHomePage />} />
         <Route path="/visits" element={<Visits />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/my_visits" element={<UserVisits />} />
