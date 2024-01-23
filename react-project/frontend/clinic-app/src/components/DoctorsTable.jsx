@@ -17,8 +17,13 @@ export default function DoctorsTable({ doctors, onApply }) {
 
   const fieldsToSearch = ["username", "first_name", "last_name"]
 
-  const handleShowDoctor = (doctorData) => {
+  const handleShowDoctor = (e, doctorData) => {
+    if (e.target.tagName.toLowerCase() === "button") {
+      e.stopPropagation();
+      return;
+    }
     setDoctorToShow(doctorData);
+    setShow(true);
     setShow(true);
   };
 
@@ -77,7 +82,7 @@ export default function DoctorsTable({ doctors, onApply }) {
               return ((searchTerm === '' ? item : fieldsToSearch.some(field => item[field].toLowerCase().includes(searchTerm))) &&
                 (specialitySearch === '' ? item : item.speciality.includes(specialitySearch)));
             }).map((doctor, index) => (
-              <tr key={doctor.id} onClick={() => handleShowDoctor(doctor)}>
+              <tr key={doctor.id} onClick={(e) => handleShowDoctor(e, doctor)}>
                 <th scope="row">{index + 1}</th>
                 <td>{doctor.speciality}</td>
                 <td>{doctor.username}</td>

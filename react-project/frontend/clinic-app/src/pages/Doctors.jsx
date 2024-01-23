@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { DOCTORS_URL } from "../apiurls";
 import DoctorsTable from "../components/DoctorsTable";
 import AddDoctorModal from "../components/DoctorAddModal";
+import { ToastContainer } from "react-toastify";
 
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -30,6 +31,7 @@ const Doctors = () => {
   return (
     <div>
       <AddDoctorModal show={show} handleClose={handleClose} />
+      <ToastContainer />
       <Navbar />
       <div className="container my-4 ">
         <h1>Doctors</h1>

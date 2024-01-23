@@ -165,6 +165,31 @@ async def update_doctor(doctor_id: int, doctor: schemas.DoctorEdit, db: db_depen
     return db_doctor
 
 
+@app.delete("/doctors/{doctor_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_doctor(doctor_id: int, db: db_dependency):
+    # Check if the user exists
+    db_doctor = db.query(models.Doctor).filter(models.Doctor.id == doctor_id).first()
+    if db_doctor is None:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    schedules_to_remove = (
+        db.query(models.Schedule)
+        .filter(models.Schedule.doctor_id == db_doctor.id)
+        .all()
+    )
+    for schedule in schedules_to_remove:
+        await delete_schedule(schedule_id=schedule.id, db=db)
+    try:
+        # db.commit()
+        db.delete(db_doctor)
+        db.commit()
+        return None
+    except StaleDataError:
+        raise HTTPException(
+            status_code=409, detail="Data has changed. Please refresh and try again."
+        )
+
+
 def create_visits(schedule: schemas.ScheduleCreate):
     start_datetime = datetime.combine(schedule.day, schedule.start)
     finish_datetime = datetime.combine(schedule.day, schedule.finish)
