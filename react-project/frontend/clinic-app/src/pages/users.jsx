@@ -16,6 +16,7 @@ const Users = () => {
   const handleShow = () => setShow(true);
   const toastError = (text) => toast.error(text);
   const token = sessionStorage.getItem("accessToken");
+  const accessGroup = sessionStorage.getItem("userGroup");
 
   const fetchUsers = async () => {
     const headers = {
@@ -47,14 +48,18 @@ const Users = () => {
     <div>
       <ToastContainer />
       <Navbar />
-      <div className="container my-4">
-        <h1>Users</h1>
-        <UsersTable users={users} onApply={onApply} />
-        <button className="whiteButton" variant="primary" onClick={handleShow}>
-          Add User
-        </button>
-        <AddUserModal show={show} handleClose={handleClose} />
-      </div>
+      {accessGroup == "Admin" ? (
+        <div className="container my-4">
+          <h1>Users</h1>
+          <UsersTable users={users} onApply={onApply} />
+          <button className="whiteButton" variant="primary" onClick={handleShow}>
+            Add User
+          </button>
+          <AddUserModal show={show} handleClose={handleClose} />
+        </div>
+      ) : (
+        <ErrorPage />
+      )}
       <div className="greenBackground"></div>
     </div>
   );

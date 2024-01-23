@@ -32,7 +32,7 @@ function Login() {
   };
 
   const goToHome = () => {
-    window.location.href = "/user_home";
+    window.location.href = "/";
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
