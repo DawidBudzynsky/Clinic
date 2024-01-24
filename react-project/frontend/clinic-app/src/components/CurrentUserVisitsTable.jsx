@@ -87,7 +87,7 @@ export default function CurrentUserVisitsTable({ visits, onApply }) {
                   item.is_reserved &&
                   (searchDate === "" || new Date(item.visit_date).toLocaleDateString() === new Date(searchDate).toLocaleDateString())
                 );
-              } else if (group === "User") {
+              } else if (group === "User" || group === "Admin") {
                 return (
                   item.user?.username === currentUser.username &&
                   item.is_reserved &&

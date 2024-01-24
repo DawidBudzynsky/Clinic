@@ -198,7 +198,7 @@ def create_visits(schedule: schemas.ScheduleCreate):
             doctor_id=schedule.doctor_id,
             is_reserved=False,
         )
-        visits.routerend(visit)
+        visits.append(visit)
         current_datetime += timedelta(minutes=15)
 
     return visits

@@ -20,7 +20,7 @@ export default function RegisterModal({ show, handleClose }) {
   const notifySuccess = () => toast.success("Registered succesfuly! Now LOG IN!");
   const notifyError = () => toast.error("Something went wrong");
   const goToHome = () => {
-    window.location.href = HOME;
+    window.location.href = "/login";
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
